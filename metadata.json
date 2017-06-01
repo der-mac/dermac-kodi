@@ -1,0 +1,31 @@
+{
+  "name": "dermac-kodi",
+  "version": "0.3.1",
+  "author": "dermac",
+  "summary": "Installs the application Kodi",
+  "license": "Apache-2.0",
+  "source": "https://github.com/der-mac/dermac-kodi",
+  "project_page": "https://github.com/der-mac/dermac-kodi",
+  "issues_url": "https://github.com/der-mac/dermac-kodi/issues",
+  "tags": [
+    "kodi",
+    "xbmc"
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "windows",
+      "operatingsystemrelease": [
+        "10"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 3.8.7 < 5.0.0"
+    }
+  ],
+  "dependencies": [
+    {"name":"puppet-download_file","version_requirement":">= 2.1.0"}
+  ]
+}

@@ -1,0 +1,30 @@
+<advancedsettings>
+<% unless @videodatabase_type.empty? -%>
+  <videodatabase>
+    <type><%= @videodatabase_type %></type>
+    <host><%= @videodatabase_host %></host>
+    <port><%= @videodatabase_port %></port>
+    <user><%= @videodatabase_user %></user>
+    <pass><%= @videodatabase_pass %></pass>
+    <name><%= @videodatabase_name %></name>
+  </videodatabase> 
+<% end -%>
+<% unless @musicdatabase_type.empty? -%>
+  <musicdatabase>
+    <type><%= @musicdatabase_type %></type>
+    <host><%= @musicdatabase_host %></host>
+    <port><%= @musicdatabase_port %></port>
+    <user><%= @musicdatabase_user %></user>
+    <pass><%= @musicdatabase_pass %></pass>
+    <name><%= @musicdatabase_name %></name>
+  </musicdatabase> 
+<% end -%>
+  <videolibrary>
+<% unless @importwatchedstate.nil? -%>
+    <importwatchedstate><%= @importwatchedstate %></importwatchedstate>
+<% end -%>
+<% unless @importresumepoint.nil? -%>
+    <importresumepoint><%= @importresumepoint %></importresumepoint>
+<% end -%>
+  </videolibrary>
+</advancedsettings>

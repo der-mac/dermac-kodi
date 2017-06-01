@@ -1,0 +1,18 @@
+{
+  "Gemfile": "def5afa5414b97d4cf2cb2f224d86783",
+  "README.md": "987309303f2f0c39fc15f27f09861827",
+  "Rakefile": "add253a93bee6b9bfb9422f607f873b9",
+  "lib/facter/kodi_curr_temp_dir.rb": "49b785f9b664825dc5fa083b2ea727af",
+  "lib/facter/kodi_local_users.rb": "6f533bb367a562f85a215b91c6b57e85",
+  "lib/facter/kodi_version.rb": "78164d71852527c6bfa3b72c52d4ae3a",
+  "manifests/config.pp": "800accedb975f65f230a4e62f4de5e85",
+  "manifests/init.pp": "2001bb697853b0d0b984fcb75ee9adf9",
+  "manifests/install.pp": "e96ddb13bd4650e38fe4d1b2ca11d0b1",
+  "manifests/params.pp": "9dc0d0cf39fcf92399d0dd1c878fb338",
+  "manifests/resource/userconfig.pp": "73c61d97a3716f3b1344ddc7a488bff4",
+  "metadata.json": "8f0b0cc383508469d98d86a789ff2a54",
+  "spec/classes/init_spec.rb": "80eb7d8787d74ee10b04e9554bf814fb",
+  "spec/spec_helper.rb": "74085ad4d8ee01166015b10a843ee959",
+  "templates/advancedsettings.xml.erb": "16638bea2fb3de2d290f631844ab8ed9",
+  "tests/init.pp": "2c225a53f8046f93057ad6b443ce6668"
+}
