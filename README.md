@@ -8,7 +8,7 @@
     * [What kodi affects](#what-kodi-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with kodi](#beginning-with-kodi)
-4. [Usage - Configuration options and additional functionality](#usage)
+4. [Limitations](#limitations)
 
 ## Overview
 
