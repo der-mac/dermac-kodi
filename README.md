@@ -1,4 +1,4 @@
-# Kodi Modul fuer Puppet
+# Kodi module for puppet
 
 #### Table of Contents
 
@@ -12,43 +12,38 @@
 
 ## Overview
 
-Das kodi Modul installiert die Anwendung Kodi und erstellt User-Konfigurationen
+The kodi-module installs the application kodi and creates the user-config
 
 ## Module Description
 
-Die Kodi Klasse installiert die Anwendung, indem es die Installationsdatei herunter läd und installiert.
-Dies geschieht nur, wenn die installierte Version aelter (oder nicht vorhanden) als die gewuenschte
-Version ist.
+The kodi-module installs the application by downloading the given link and runs the installer in silent mode.
+This happens only if the installed version is older (or not present) than the version that should be installed
 
-Weiterhin wird die Resource userconfig definiert. Mit dieser kann eine Benutzerkonfiguration erstellt
-und verwaltet werden.
-
-Derzeit wird nur Windows 10 unterstuetzt, an weiteren Systemen wird gearbeitet.
+The userconfig-resource creates a personalized configuration for the given user.
+If the user is not present, the resource can create the user for you (please change the default password 'kodi' as soon as possible).
 
 ## Setup
 
 ### What kodi affects
 
-Kodi laed die Installationsdateien in das System-Temp- (bzw. User-Temp-) Verzeichnis herunter um es zu
-installieren.
+The kodi-module downloads the installation-file to the temp-directory of the user running the puppet-agent.
 
-Die Definition userconfig erstellt bzw. aendert die advancedsettings.xml im userdata-Verzeichnis des entsprechenden
-Benutzers.
+The resource userconfig creates or changes the advancedsettings.xml in the userdata-directory of the given user.
 
 ### Setup Requirements **OPTIONAL**
 
-kodi verwendet das puppet-download_file Modul
+The kodi-module uses the puppet-download_file module
 
 ### Beginning with kodi
 
-Um Kodi lediglich zu installieren, genuegt:
+for a simple kodi-installation use:
 
 ```puppet
     class { "kodi" :
     }
 ```
 
-Um eine bestimmte Version zu installieren:
+To install a specific version of kodi:
 
 ```puppet
     class { "kodi" :
@@ -57,7 +52,7 @@ Um eine bestimmte Version zu installieren:
     }
 ```
 
-Um fuer den User Bob eine MySQL Kodi-DB-Verbindung zur Verfuegung zu stellen:
+To configure the user Bob to use a mysql kodi-database-connection:
 
 ```puppet
     kodi::resource::userconfig { 'bob':
@@ -68,6 +63,18 @@ Um fuer den User Bob eine MySQL Kodi-DB-Verbindung zur Verfuegung zu stellen:
     }
 ```
 
+To configure the user Bob to use a mysql kodi-database-connection and the user is not present on the system:
+
+```puppet
+    kodi::resource::userconfig { 'bob':
+      create_missing_user => true,
+      videodatabase_type => 'mysql',
+      videodatabase_host => '192.168.1.1',
+      musicdatabase_type => 'mysql',
+      musicdatabase_host => '192.168.1.1',
+    }
+```
+
 ## Limitations
 
-Im Moment nur mit Windows 10 kompatibel
+At the Moment, only windows 7 and windows 10 are supported.

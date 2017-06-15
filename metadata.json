@@ -1,6 +1,6 @@
 {
   "name": "dermac-kodi",
-  "version": "0.3.2",
+  "version": "0.3.4",
   "author": "dermac",
   "summary": "Installs the application Kodi",
   "license": "Apache-2.0",
@@ -15,7 +15,8 @@
     {
       "operatingsystem":"windows",
       "operatingsystemrelease": [
-        "10"
+        "10",
+        "7"
       ]
     }
   ],
@@ -23,7 +24,7 @@
     {"name":"puppet-download_file","version_requirement":">= 2.0.0 <= 2.1.0"}
   ],
   "requirements": [
-    {"name":"puppet","version_requirement":">= 3.8.7 < 5.0.0"}
+    {"name":"puppet","version_requirement":">= 4.10.1 < 5.0.0"}
   ]
 }
 

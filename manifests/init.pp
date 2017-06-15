@@ -1,38 +1,38 @@
 # == Class: kodi
 #
-# Installiert und konfiguriert die Anwendung Kodi-Mediaplayer (https://kodi.tv).
+# Install and configure the kodi-mediaplayer-application (https://kodi.tv).
 #
 # === Parameters
 #
 # [*package_ensure*]
-#   Paket installieren, oder entfernen
+#   Install or remove package
 # [*$package_name*]
-#   Name des Paketes im Betriebssystem
+#   Name of the package in the operatingsystem
 # [*$package_version*]
-#   Kodi-Version, die installiert werden soll
+#   Kodi-version, which should be present on the system 
 # [*$download_link*]
-#   Downloadlink fuer die Kodi-Version, die installiert werden soll
+#   Downloadlink for the kodi-version, which should be present on the system
 # [*$install_dir*]
-#   Verzeichnis, in das Kodi installiert wird (Sollte nicht geaendert werden)
+#   Install-directory for kodi (please do not change)
 # [*$download_dir*]
-#   Verzeichnis, in das die Installationsdatei heruntergeladen werden soll
+#   Download-directory for the kodi-install-file
 # [*$destination_file*]
-#   Name der heruntergeladenen Installationsdatei
+#   Name of the downloaded kodi-install-file
 # [*$download_cleanup*]
-#   Soll die Installationsdatei entfernt wrden,
-#   wenn die installierte Version gleich der gewuenschten Version ist
+#   Remove the kodi-install-file once the installed version is the one
+#   that should be installed
 # [*$proxy_address*]
-#   Proxy-Server fuer den Download der Installationsdatei
-#   Siehe Doku zu download_module
+#   Proxy-server for the downlaod of the kodi-install-file
+#   Have a look in the download_module doku
 # [*$proxy_user*]
-#   Proxy-User fuer den Download der Installationsdatei
-#   Siehe Doku zu download_module
+#   Proxy-user for the downlaod of the kodi-install-file
+#   Have a look in the download_module doku
 # [*$proxy_password*]
-#   ProxyPasswort fuer den Download der Installationsdatei
-#   Siehe Doku zu download_module
+#   Proxy-passwort for the downlaod of the kodi-install-file
+#   Have a look in the download_module doku
 # [*$is_password_secure*]
-#   Boolean-Wert, der angibt, ob der Passwortstring secure ist
-#   Siehe Doku zu download_module
+#   Switch to change the way that proxyPassword is interpreted from secure string to plaintext
+#   Have a look in the download_module doku
 #
 # === Variables
 #
@@ -77,9 +77,9 @@ class kodi (
   validate_bool($is_password_secure)
 
 
-  anchor { 'kodi::begin': } ->
-  class { '::kodi::install': } ->
-  class { '::kodi::config': }
+  anchor { 'kodi::begin': }
+  -> class { '::kodi::install': }
+  -> class { '::kodi::config': }
   anchor { 'kodi::end': }
 
 }

@@ -1,11 +1,31 @@
+# == Class: kodi::params
+#
+# This is the install-class to install the kodi-application
+#
+# === Parameters
+#
+# See the init-class.
+#
+# === Variables
+#
+# === Examples
+#
+# === Authors
+#
+# Martin Schneider <martin@dermac.de>
+#
+# === Copyright
+#
+# Copyright 2017 Martin Schneider
+#
 class kodi::install inherits kodi {
 
   case $::osfamily {
     'windows': {
       case $::operatingsystemmajrelease {
-        '10': {
+        '7', '10': {
           # Installierte Version muss kleiner sein
-          if (versioncmp($kodi::package_version, $::kodi_installed_version) > 0) or ($::kodi_installed_version == '') {
+          if (versioncmp($kodi::package_version, String($::kodi_installed_version)) > 0) or ($::kodi_installed_version == '') {
             notify{"${kodi::package_name} :: Version is older, installing Software from ${kodi::download_link}": }
 
             # Installationsdatei herunterladen

@@ -1,15 +1,14 @@
 # Fact: kodi_local_users
 #
 # Purpose:
-#   Gibt ein Array aller lokalen Benutzer zurueck
+#   Returns an array of all local users
 #
 # Resolution:
 #   Windows:
-#      Per WMI werden alle Benutzer ausgegeben, dann bereinigt und
-#      als Array zurueckgegeben
+#     Uses WMI to get all local users, sanitize them and returns them as an array
 #
 # Caveats:
-#   Momentan nur Windows
+#   currently only windows 7 and windows 10
 
 Facter.add(:kodi_local_users) do
   confine :kernel => 'windows'

@@ -1,3 +1,23 @@
+# == Class: kodi::params
+#
+# This is the paramter-class to configure the kodi-module
+#
+# === Parameters
+#
+# See the init-class.
+#
+# === Variables
+#
+# === Examples
+#
+# === Authors
+#
+# Martin Schneider <martin@dermac.de>
+#
+# === Copyright
+#
+# Copyright 2017 Martin Schneider
+#
 class kodi::params {
 
   $default_package_ensure     = 'present'
@@ -17,7 +37,7 @@ class kodi::params {
   case $::osfamily {
     'windows': {
       case $::operatingsystemmajrelease {
-        '10': {
+        '7', '10': {
           $package_version  = $default_package_version
           $package_name     = $default_package_name
           $download_link    = $default_download_link
