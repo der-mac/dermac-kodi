@@ -4,36 +4,37 @@
 # specified configuration in its user-directory
 #
 # Parameters:
-#   [*ensure*]               - Activates, or deactivates the configuration for the given user
+#   [*ensure*]                - Activates, or deactivates the configuration for the given user
 #     (present|absent)
-#   [*create_missing_user*]  - Creates the missing user, if it not present
-#   [*videodatabase_type*]   - Kodi video-database-type
+#   [*create_missing_user*]   - Creates the missing user, if it not present
+#   [*missing_user_password*] - The password for the new user (if too simple, you get problems at login)
+#   [*videodatabase_type*]    - Kodi video-database-type
 #     (mysql|...), Default: ''
-#   [*videodatabase_host*]   - Kodi video-database-server
+#   [*videodatabase_host*]    - Kodi video-database-server
 #     Default: ''
-#   [*videodatabase_port*]   - Kodi video-database-port
+#   [*videodatabase_port*]    - Kodi video-database-port
 #     Default: 3306
-#   [*videodatabase_user*]   - Kodi video-database-user
+#   [*videodatabase_user*]    - Kodi video-database-user
 #     Default: 'kodi'
-#   [*videodatabase_pass*]   - Kodi video-database-password
+#   [*videodatabase_pass*]    - Kodi video-database-password
 #     Default: ''
-#   [*videodatabase_name*]   - Kodi video-database-name
+#   [*videodatabase_name*]    - Kodi video-database-name
 #     Default: 'kodi_video'
-#   [*musicdatabase_type*]   - Kodi video-database-type
+#   [*musicdatabase_type*]    - Kodi video-database-type
 #     (mysql|...), Default: ''
-#   [*musicdatabase_host*]   - Kodi music-database-server
+#   [*musicdatabase_host*]    - Kodi music-database-server
 #     Default: ''
-#   [*musicdatabase_port*]   - Kodi music-database-port
+#   [*musicdatabase_port*]    - Kodi music-database-port
 #     Default: 3306
-#   [*musicdatabase_user*]   - Kodi music-database-user
+#   [*musicdatabase_user*]    - Kodi music-database-user
 #     Default: 'kodi'
-#   [*musicdatabase_pass*]   - Kodi music-database-password
+#   [*musicdatabase_pass*]    - Kodi music-database-password
 #     Default: ''
-#   [*musicdatabase_name*]   - Kodi music-database-name
+#   [*musicdatabase_name*]    - Kodi music-database-name
 #     Default: 'kodi_music'
-#   [*importwatchedstate*]   - Import previous exported playtimes and playcounters
+#   [*importwatchedstate*]    - Import previous exported playtimes and playcounters
 #     Default: true
-#   [*importresumepoint*]    - Import previous exported resume-points
+#   [*importresumepoint*]     - Import previous exported resume-points
 #     Default: true
 #
 #
@@ -51,23 +52,47 @@
 #
 
 define kodi::resource::userconfig (
-  $ensure              = present,
-  $create_missing_user = false,
-  $videodatabase_type  = '',
-  $videodatabase_host  = '',
-  $videodatabase_port  = 3306,
-  $videodatabase_user  = 'kodi',
-  $videodatabase_pass  = 'kodi',
-  $videodatabase_name  = 'kodi_video',
-  $musicdatabase_type  = '',
-  $musicdatabase_host  = '',
-  $musicdatabase_port  = 3306,
-  $musicdatabase_user  = 'kodi',
-  $musicdatabase_pass  = 'kodi',
-  $musicdatabase_name  = 'kodi_music',
-  $importwatchedstate  = true,
-  $importresumepoint   = true,
+  $ensure                = present,
+  $create_missing_user   = false,
+  $missing_user_password = 'chang3_me',
+  $videodatabase_type    = '',
+  $videodatabase_host    = '',
+  $videodatabase_port    = 3306,
+  $videodatabase_user    = 'kodi',
+  $videodatabase_pass    = 'kodi',
+  $videodatabase_name    = 'kodi_video',
+  $musicdatabase_type    = '',
+  $musicdatabase_host    = '',
+  $musicdatabase_port    = 3306,
+  $musicdatabase_user    = 'kodi',
+  $musicdatabase_pass    = 'kodi',
+  $musicdatabase_name    = 'kodi_music',
+  $importwatchedstate    = true,
+  $importresumepoint     = true,
 ) {
+
+  ## Set OS-specific-values
+  case $::os['name'] {
+    'windows': {
+      $kodidata_dir  = "C:\\Users\\${name}\\AppData\\Roaming\\Kodi"
+      $userdata_dir  = "${kodidata_dir}\\userdata"
+      $adv_settings  = "${userdata_dir}\\advancedsettings.xml"
+      $user_groups   = ['S-1-5-32-545']
+      $user_password = $missing_user_password
+    }
+    'Fedora': {
+      $kodidata_dir  = "/home/${name}/.kodi"
+      $userdata_dir  = "${kodidata_dir}/userdata"
+      $adv_settings  = "${userdata_dir}/advancedsettings.xml"
+      $user_groups   = ['wheel']
+      $user_password = pw_hash($missing_user_password, 'SHA-512', 'mysalt')
+      #$user_password = '$1$h5YD4TR7$Jo.qY6yTXdGH8W9eTO3670'
+    }
+    default: {
+      fail("The ${module_name} module is not supported on an ${::osfamily} based system.")
+    }
+  }
+
 
   ## Check for various error conditions
   if ! ($name in $::kodi_local_users) {
@@ -76,8 +101,8 @@ define kodi::resource::userconfig (
         ensure     => present,
         name       => $name,
         managehome => true,
-        groups     => ['S-1-5-32-545'],
-        password   => 'kodi',
+        groups     => $user_groups,
+        password   => $user_password,
       }
     }
     else {
@@ -99,11 +124,11 @@ define kodi::resource::userconfig (
     default  => directory,
   }
 
-  file { ["C:\\Users\\${name}\\AppData\\Roaming\\Kodi", "C:\\Users\\${name}\\AppData\\Roaming\\Kodi\\userdata"] :
+  file { [$kodidata_dir, $userdata_dir] :
     ensure => $ensure_dir,
   }
 
-  file { "C:\\Users\\${name}\\AppData\\Roaming\\Kodi\\userdata\\advancedsettings.xml":
+  file { $adv_settings:
     ensure  => $ensure_file,
     content => template('kodi/advancedsettings.xml.erb'),
   }

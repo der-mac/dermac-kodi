@@ -49,18 +49,18 @@
 # Copyright 2017 Martin Schneider
 #
 class kodi (
-  $package_ensure     = $kodi::params::default_package_ensure,
-  $package_name       = $kodi::params::default_package_name,
-  $package_version    = $kodi::params::default_package_version,
-  $install_dir        = $kodi::params::default_install_dir,
-  $download_link      = $kodi::params::default_download_link,
-  $download_dir       = $kodi::params::default_download_dir,
-  $download_cleanup   = $kodi::params::default_download_cleanup,
-  $destination_file   = $kodi::params::default_destination_file,
-  $proxy_address      = $kodi::params::default_proxy_address,
-  $proxy_user         = $kodi::params::default_proxy_user,
-  $proxy_password     = $kodi::params::default_proxy_password,
-  $is_password_secure = $kodi::params::default_is_password_secure,
+  $package_ensure     = $kodi::params::package_ensure,
+  $package_name       = $kodi::params::package_name,
+  $package_version    = $kodi::params::package_version,
+  $install_dir        = $kodi::params::install_dir,
+  $download_link      = $kodi::params::download_link,
+  $download_dir       = $kodi::params::download_dir,
+  $download_cleanup   = $kodi::params::download_cleanup,
+  $destination_file   = $kodi::params::destination_file,
+  $proxy_address      = $kodi::params::proxy_address,
+  $proxy_user         = $kodi::params::proxy_user,
+  $proxy_password     = $kodi::params::proxy_password,
+  $is_password_secure = $kodi::params::is_password_secure,
 
 ) inherits kodi::params {
 

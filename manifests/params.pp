@@ -20,38 +20,51 @@
 #
 class kodi::params {
 
-  $default_package_ensure     = 'present'
+  $package_ensure     = 'present'
+  $download_dir       = $::kodi_curr_temp_dir
+  $download_cleanup   = true
+  $proxy_address      = ''
+  $proxy_user         = ''
+  $proxy_password     = ''
+  $is_password_secure = false
+
   $default_package_version    = '17.3'
   $default_package_name       = ['kodi-17.3-Krypton.exe']
-  $default_install_dir        = 'C:\Program Files (x86)\Kodi'
   $default_download_link      = 'http://mirrors.kodi.tv/releases/win32/kodi-17.3-Krypton.exe'
-  $default_download_dir       = $::kodi_curr_temp_dir
-  $default_download_cleanup   = true
+  $default_install_dir        = 'C:\Program Files (x86)\Kodi'
   $default_destination_file   = 'kodi-latest.exe'
-  $default_proxy_address      = ''
-  $default_proxy_user         = ''
-  $default_proxy_password     = ''
-  $default_is_password_secure = false
 
-
-  case $::osfamily {
+  case $::os['name'] {
     'windows': {
-      case $::operatingsystemmajrelease {
+      case $::os['release']['full'] {
         '7', '10': {
           $package_version  = $default_package_version
           $package_name     = $default_package_name
           $download_link    = $default_download_link
           $install_dir      = $default_install_dir
-          $download_dir     = $default_download_dir
           $destination_file = $default_destination_file
         }
         default: {
-          fail("The ${module_name} module is not supported on Windows Version ${::operatingsystemmajrelease} based system.")
+          fail("The ${module_name} module is not supported on Windows Version ${::os['release']['full']} based system.")
+        }
+      }
+    }
+    'Fedora': {
+      case $::os['release']['full'] {
+        '25': {
+          $package_version  = $default_package_version
+          $package_name     = ['kodi']
+          $download_link    = 'http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-25.noarch.rpm'
+          $destination_file = 'rpmfusion-free-release-25.noarch.rpm'
+          $install_dir      = '/bin/'
+        }
+        default: {
+          fail("The ${module_name} module is not supported on Fedora Version ${::os['release']['full']} based system.")
         }
       }
     }
     default: {
-      fail("The ${module_name} module is not supported on an ${::osfamily} based system.")
+      fail("The ${module_name} module is not supported on an ${::os['name']} based system.")
     }
   }
 }

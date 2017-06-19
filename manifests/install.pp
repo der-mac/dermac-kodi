@@ -20,15 +20,15 @@
 #
 class kodi::install inherits kodi {
 
-  case $::osfamily {
+  case $::os['name'] {
     'windows': {
-      case $::operatingsystemmajrelease {
+      case $::os['release']['full'] {
         '7', '10': {
-          # Installierte Version muss kleiner sein
+          # Check installed version against package-version
           if (versioncmp($kodi::package_version, String($::kodi_installed_version)) > 0) or ($::kodi_installed_version == '') {
             notify{"${kodi::package_name} :: Version is older, installing Software from ${kodi::download_link}": }
 
-            # Installationsdatei herunterladen
+            # Downlaod install-file
             download_file { "${kodi::download_dir}\\${kodi::destination_file}":
               url                   => $kodi::download_link,
               destination_directory => $kodi::download_dir,
@@ -39,17 +39,17 @@ class kodi::install inherits kodi {
               is_password_secure    => $kodi::is_password_secure
             }
 
-            # Heruntergeladene Datei installieren
+            # Install exe-file
             package { $kodi::package_name:
               ensure          => $kodi::package_ensure,
               source          => "${kodi::download_dir}\\${kodi::destination_file}",
               install_options => [ '/S' ],
-              require         => Download_file["${kodi::download_dir}\\${kodi::destination_file}"]
+              require         => Download_file["${kodi::download_dir}\\${kodi::destination_file}"],
             }
           }
           else {
-            # Wenn Cleanup true, dann heruntergeladene Downloaddatei loeschen
-            if ( $kodi::default_download_cleanup ) {
+            # If cleanup true, delete the install-file
+            if ( $kodi::download_cleanup ) {
               file { "${kodi::download_dir}\\${kodi::destination_file}":
                 ensure => absent,
               }
@@ -58,6 +58,50 @@ class kodi::install inherits kodi {
         }
         default: {
           fail("The ${module_name} module is not supported on Windows Version ${::operatingsystemmajrelease} based system.")
+        }
+      }
+    }
+    'Fedora': {
+      case $::os['release']['full'] {
+        '25': {
+          # Check installed version against package-version
+          if (versioncmp($kodi::package_version, Strin($::kodi_installed_version)) > 0) or ($::kodi_installed_version == '') {
+            notify{"${kodi::package_name} :: Version is older, installing Software from ${kodi::download_link}": }
+
+            # Download the rpmfusion-repo
+            include wget
+            wget::fetch { "${kodi::download_dir}/${kodi::destination_file}":
+              source             => $kodi::download_link,
+              destination        => "${kodi::download_dir}/",
+              timeout            => 0,
+              nocheckcertificate => true,
+              redownload         => true,
+              verbose            => true,
+            }
+
+            # Install the rpmfusion-repo
+            package { "${kodi::download_dir}/${kodi::destination_file}":
+              ensure  => $kodi::package_ensure,
+              require => Wget::Fetch["${kodi::download_dir}/${kodi::destination_file}"],
+            }
+
+            # Install the package from the new repository
+            package { $kodi::package_name:
+              ensure  => $kodi::package_ensure,
+              require => Package["${kodi::download_dir}/${kodi::destination_file}"],
+            }
+          }
+          else {
+            # If cleanup true, delete the install-file
+            if ( $kodi::download_cleanup ) {
+              file { "${kodi::download_dir}\\${kodi::destination_file}":
+                ensure => absent,
+              }
+            }
+          }
+        }
+        default: {
+          fail("The ${module_name} module is not supported on  Version ${::operatingsystemmajrelease} based system.")
         }
       }
     }

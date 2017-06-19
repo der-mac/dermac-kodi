@@ -11,14 +11,16 @@
 
 Facter.add(:kodi_curr_temp_dir) do
   setcode do
-    command = 'powershell -noprofile -command "echo $Env:TEMP"'
-
     if Facter.value(:kernel) == 'windows'
+      command = 'powershell -noprofile -command "echo $Env:TEMP"'
+
       if name = Facter::Core::Execution.exec(command) and name =~ /.*([a-zA-Z]:\\.*)$/
         return_value = $1
       end
-    else
-      return_value = 'not-windows'
+    elsif Facter.value(:kernel) == 'Linux'
+      return_value = '/tmp'
+    else 
+      return_value = 'not-a-supported-os'
     end
   end
 end

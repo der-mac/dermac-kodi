@@ -20,7 +20,7 @@ The kodi-module installs the application by downloading the given link and runs 
 This happens only if the installed version is older (or not present) than the version that should be installed
 
 The userconfig-resource creates a personalized configuration for the given user.
-If the user is not present, the resource can create the user for you (please change the default password 'kodi' as soon as possible).
+If the user is not present, the resource can create the user for you (please change the default password 'chang3_me' as soon as possible).
 
 ## Setup
 
@@ -43,7 +43,7 @@ for a simple kodi-installation use:
     }
 ```
 
-To install a specific version of kodi:
+To install a specific version of kodi on Windows:
 
 ```puppet
     class { "kodi" :
@@ -77,4 +77,4 @@ To configure the user Bob to use a mysql kodi-database-connection and the user i
 
 ## Limitations
 
-At the Moment, only windows 7 and windows 10 are supported.
+At the Moment, only windows 7, windows 10 and fedora 25 are supported.

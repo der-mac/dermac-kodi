@@ -12,14 +12,19 @@
 
 Facter.add(:kodi_installed_version) do
   setcode do
-    command = 'powershell -noprofile -command "[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\'C:\Program Files (x86)\Kodi\Kodi.exe\').FileVersion"'
-
     if Facter.value(:kernel) == 'windows'
+      command = 'powershell -noprofile -command "[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\'C:\Program Files (x86)\Kodi\Kodi.exe\').FileVersion"'
+
       if name = Facter::Core::Execution.exec(command) and name =~ /([0-9\.]+)/
         return_value = $1
       end
-    else
-      return_value = 'not-windows'
+    elsif Facter.value(:kernel) == 'Linux'
+      command = '/bin/kodi --version'
+      if name = Facter::Core::Execution.exec(command) and name =~ /^([0-9\.]+)/
+        return_value = $1
+      end
+    else 
+      return_value = 'not-a-supported-os'
     end
   end
 end
