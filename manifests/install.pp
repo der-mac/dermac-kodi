@@ -105,6 +105,16 @@ class kodi::install inherits kodi {
         }
       }
     }
+    'Ubuntu':{
+      case $::os['release']['full'] {
+        '18.04': {
+          # Install the package from Ubuntu Repo
+          package { $kodi::package_name:
+            ensure  => $kodi::package_ensure,
+          }
+        }
+      }
+    }
     default: {
       fail("The ${module_name} module is not supported on an ${::osfamily} based system.")
     }
