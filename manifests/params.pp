@@ -68,6 +68,8 @@ class kodi::params {
         '18.04': {
           $package_version  = $default_package_version
           $package_name     = ['kodi']
+          $download_link    = ''
+          $destination_file = '',
           $install_dir      = '/bin/'
         }
         default: {
