@@ -69,7 +69,7 @@ class kodi::params {
           $package_version  = $default_package_version
           $package_name     = ['kodi']
           $download_link    = ''
-          $destination_file = '',
+          $destination_file = ''
           $install_dir      = '/bin/'
         }
         default: {
