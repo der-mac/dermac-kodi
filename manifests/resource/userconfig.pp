@@ -88,6 +88,14 @@ define kodi::resource::userconfig (
       $user_password = pw_hash($missing_user_password, 'SHA-512', 'mysalt')
       #$user_password = '$1$h5YD4TR7$Jo.qY6yTXdGH8W9eTO3670'
     }
+    'Ubnutu': {
+      $kodidata_dir  = "/home/${name}/.kodi"
+      $userdata_dir  = "${kodidata_dir}/userdata"
+      $adv_settings  = "${userdata_dir}/advancedsettings.xml"
+      $user_groups   = ['wheel']
+      $user_password = pw_hash($missing_user_password, 'SHA-512', 'mysalt')
+      #$user_password = '$1$h5YD4TR7$Jo.qY6yTXdGH8W9eTO3670'
+    }
     default: {
       fail("The ${module_name} module is not supported on an ${::osfamily} based system.")
     }

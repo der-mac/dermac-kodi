@@ -77,4 +77,4 @@ To configure the user Bob to use a mysql kodi-database-connection and the user i
 
 ## Limitations
 
-At the Moment, only windows 7, windows 10 and fedora 25 are supported.
+At the Moment, only windows 7, windows 10 and fedora 25, ubuntu 18.04  are supported.

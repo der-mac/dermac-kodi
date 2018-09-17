@@ -63,6 +63,20 @@ class kodi::params {
         }
       }
     }
+    'Ubuntu': {
+      case $::os['release']['full'] {
+        '18.04': {
+          $package_version  = $default_package_version
+          $package_name     = ['kodi']
+          $download_link    = ''
+          $destination_file = ''
+          $install_dir      = '/bin/'
+        }
+        default: {
+          fail("The ${module_name} module is not supported on Fedora Version ${::os['release']['full']} based system.")
+        }
+      }
+    }
     default: {
       fail("The ${module_name} module is not supported on an ${::os['name']} based system.")
     }
